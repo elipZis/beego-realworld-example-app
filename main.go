@@ -1,11 +1,10 @@
 package main
 
 import (
-	_ "github.com/elipZis/beego-realworld-example-app/routers"
 	"github.com/astaxie/beego"
+	_ "github.com/elipZis/beego-realworld-example-app/routers"
 )
 
 func main() {
 	beego.Run()
 }
-
