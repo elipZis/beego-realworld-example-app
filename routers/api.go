@@ -2,11 +2,13 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/elipZis/beego-realworld-example-app/controllers/api"
 )
 
 func init() {
 	//Set up the api namespace
-	apiNs := beego.NewNamespace("/api")//It should verify the encrypted request in the production using
+	apiNs := beego.NewNamespace("/api")
+	//It should verify the encrypted request in the production using
 	//beego.NSCond(func(ctx *context.Context) bool {
 	//	if ua := ctx.Input.Request.UserAgent(); ua != "" {
 	//		return true
@@ -14,6 +16,13 @@ func init() {
 	//	return false
 	//}),
 	//beego.NSBefore(auth),
+	beego.NSInclude(
+		&api.ArticleController{},
+		&api.AuthController{},
+		&api.CommentController{},
+		&api.ProfileController{},
+		&api.UserController{},
+	)
 	//beego.NSGet("/notallowed", func(ctx *context.Context) {
 	//	ctx.Output.Body([]byte("notAllowed"))
 	//}),
