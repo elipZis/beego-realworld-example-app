@@ -17,3 +17,9 @@ Thumbs.db
 
 # Generated files
 *.exe
+beego-realworld-example-app
+routers/commentsRouter*
+
+# Others
+*.tmp
+*.temp
