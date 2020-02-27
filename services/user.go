@@ -9,4 +9,6 @@ type UserService struct {
 
 func (service *UserService) Login(email string, password string) {
 	// Validate the credentials and log-in the user
+
+	// Create a token, store the uid in the session
 }
