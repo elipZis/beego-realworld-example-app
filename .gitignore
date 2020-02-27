@@ -23,3 +23,4 @@ routers/commentsRouter*
 # Others
 *.tmp
 *.temp
+.env
