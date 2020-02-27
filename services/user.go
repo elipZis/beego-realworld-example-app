@@ -6,3 +6,7 @@ type UserService struct {
 	*JwtService
 	*repositories.UserRepository
 }
+
+func (service *UserService) Login(email string, password string) {
+	// Validate the credentials and log-in the user
+}
