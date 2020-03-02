@@ -11,6 +11,7 @@ func init() {
 	webs()
 }
 
+// All realworld.io Backend API relevant routes
 func apis() {
 	//Set up the api namespace
 	apiNs := beego.NewNamespace("/api",
@@ -27,7 +28,10 @@ func apis() {
 	beego.AddNamespace(apiNs)
 }
 
+// All frontend full-stack urls
+// Adapting the frontend realworld.io requirements
 func webs() {
 	//Set up the web routes
-	beego.Router("/", &web.MainController{})
+	beego.Include(&web.AuthController{})
+	beego.Include(&web.HomeController{})
 }

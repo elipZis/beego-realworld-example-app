@@ -14,8 +14,8 @@ type AuthController struct {
 	*repositories.UserRepository
 }
 
-// @Import github.com/elipZis/beego-realworld-example-app/routers/middleware
-// @Filter /users/login beego.BeforeRouter middleware.IsAuthenticated
+// @Import github.com/elipZis/beego-realworld-example-app/routers/filter
+// @Filter /users/login beego.BeforeRouter filter.IsAuthenticated
 // @router /users/login [post]
 func (this *AuthController) Login() {
 	var user models.User

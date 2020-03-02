@@ -4,11 +4,12 @@ import (
 	"github.com/astaxie/beego"
 )
 
-type MainController struct {
+type HomeController struct {
 	beego.Controller
 }
 
-func (c *MainController) Get() {
+// @router / [get]
+func (c *HomeController) Get() {
 	c.Data["Website"] = "beego.me"
 	c.Data["Email"] = "astaxie@gmail.com"
 	c.TplName = "pages/home.tpl"
