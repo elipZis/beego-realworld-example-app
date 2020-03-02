@@ -27,21 +27,22 @@ func (this *AuthController) Login() {
 	this.Redirect("/", 303)
 }
 
-// @router /register [get]
-func (this *AuthController) GetRegister() {
-	this.TplName = "pages/auth/register.tpl"
-	this.Data["User"] = models.User{}
-}
-
-// @router /register [post]
+// @router /register [get,post]
 func (this *AuthController) Register() {
 	this.TplName = "pages/auth/register.tpl"
+	this.Data["User"] = models.User{}
 
-	user, errors := this.FormService.ParseAndValidate(this.Input(), &models.User{})
-	// No Errors -> Go Home!
-	if errors == nil {
-		this.Redirect("/", 303)
+	if this.Ctx.Input.Is("POST") {
+		user, errors := this.FormService.ParseAndValidate(this.Input(), &models.User{})
+
+		beego.Info(this.GetSession("user"))
+		this.SetSession("user", user)
+
+		// No Errors -> Go Home!
+		if errors == nil {
+			this.Redirect("/", 303)
+		}
+		this.Data["Errors"] = errors
+		this.Data["User"] = user
 	}
-	this.Data["Errors"] = errors
-	this.Data["User"] = user
 }

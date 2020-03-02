@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/elipZis/beego-realworld-example-app/controllers/api"
 	"github.com/elipZis/beego-realworld-example-app/controllers/web"
+	"github.com/elipZis/beego-realworld-example-app/routers/filter"
 )
 
 func init() {
@@ -32,6 +33,7 @@ func apis() {
 // Adapting the frontend realworld.io requirements
 func webs() {
 	//Set up the web routes
+	beego.InsertFilter("/", beego.BeforeExec, filter.AddJwtHeader)
 	beego.Include(&web.AuthController{})
 	beego.Include(&web.HomeController{})
 }
