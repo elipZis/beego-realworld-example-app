@@ -3,7 +3,7 @@ package models
 import "github.com/elipZis/beego-realworld-example-app/models/traits"
 
 type Article struct {
-	Id             int    `json:"-"`
+	Id             int64  `json:"-"`
 	Slug           string `orm:"unique"`
 	Title          string
 	Description    string `orm:"null;type(text)"json:",omitempty"`

@@ -5,7 +5,7 @@ import (
 )
 
 type User struct {
-	Id       int    `json:"-"`
+	Id       int64  `json:"-"`
 	Email    string `orm:"unique" form:"email" valid:"Required; Email; MaxSize(100)"`
 	Password string `json:"-" form:"password" valid:"Required; MinSize(6); MaxSize(100)"`
 	Token    string `orm:"null;type(text)" json:",omitempty"`

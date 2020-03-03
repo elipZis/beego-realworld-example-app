@@ -9,7 +9,7 @@ import (
 type AuthController struct {
 	beego.Controller
 	*services.FormService
-	*services.FormError
+	*services.UserService
 }
 
 // @router /login [get,post]
@@ -19,14 +19,18 @@ func (this *AuthController) Login() {
 	this.Data["User"] = user
 
 	if this.Ctx.Input.Is("POST") {
-		user, errors := this.FormService.ParseAndValidate(this.Input(), &user)
+		errors := this.FormService.ParseAndValidate(this.Input(), &user)
 		if errors == nil {
-			// TODO: Login
-			beego.Info(this.GetSession("user"))
-			this.SetSession("user", user)
-
-			//
-			this.Redirect("/", 303)
+			// Login
+			_, err := this.UserService.Login(&user)
+			if err == nil {
+				this.SetSession("user", user)
+				this.Redirect("/", 303)
+			}
+			errors["Error"] = services.FormError{
+				Key:     "Error",
+				Message: err.Error(),
+			}
 		}
 		this.Data["Errors"] = errors
 	}
@@ -39,7 +43,7 @@ func (this *AuthController) Register() {
 	this.Data["User"] = user
 
 	if this.Ctx.Input.Is("POST") {
-		user, errors := this.FormService.ParseAndValidate(this.Input(), &user)
+		errors := this.FormService.ParseAndValidate(this.Input(), &user)
 
 		beego.Info(this.GetSession("user"))
 		this.SetSession("user", user)

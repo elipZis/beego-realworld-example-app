@@ -14,7 +14,7 @@ type FormError struct {
 	Message string
 }
 
-func (this *FormService) ParseAndValidate(input url.Values, obj interface{}) (interface{}, map[string]FormError) {
+func (this *FormService) ParseAndValidate(input url.Values, obj interface{}) map[string]FormError {
 	valid := validation.Validation{}
 	errors := make(map[string]FormError)
 	if err := beego.ParseForm(input, obj); err != nil {
@@ -40,7 +40,7 @@ func (this *FormService) ParseAndValidate(input url.Values, obj interface{}) (in
 	}
 
 	if len(errors) > 0 {
-		return obj, errors
+		return errors
 	}
-	return obj, nil
+	return nil
 }
