@@ -1,4 +1,5 @@
 {{ template "../../layout/layout.tpl" . }}
+{{ template "../../component/errors.tpl" . }}
 
 {{ define "content" }}
     <div class="auth-page">
@@ -7,16 +8,10 @@
                 <div class="col-md-6 offset-md-3 col-xs-12">
                     <h1 class="text-xs-center">Sign up</h1>
                     <p class="text-xs-center">
-                        <a href="{{urlfor "web.AuthController.GetLogin"}}">Have an account?</a>
+                        <a href="{{urlfor "web.AuthController.Login"}}">Have an account?</a>
                     </p>
 
-                    {{ with .Errors }}
-                        <ul class="error-messages">
-                            {{range $i, $formError := .}}
-                                <li>{{ $i }}: {{ $formError.Message }}</li>
-                            {{end}}
-                        </ul>
-                    {{ end }}
+                    {{ template "errors" .Errors }}
 
                     <form action="" method="post">
                         <fieldset class="form-group">

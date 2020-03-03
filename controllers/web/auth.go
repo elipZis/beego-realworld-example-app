@@ -9,31 +9,37 @@ import (
 type AuthController struct {
 	beego.Controller
 	*services.FormService
+	*services.FormError
 }
 
-// @router /login [get]
-func (this *AuthController) GetLogin() {
-	this.TplName = "pages/auth/login.tpl"
-}
-
-// @router /login [post]
+// @router /login [get,post]
 func (this *AuthController) Login() {
 	this.TplName = "pages/auth/login.tpl"
 	user := models.User{}
-	if err := this.ParseForm(&user); err != nil {
-		beego.Error(err)
+	this.Data["User"] = user
+
+	if this.Ctx.Input.Is("POST") {
+		user, errors := this.FormService.ParseAndValidate(this.Input(), &user)
+		if errors == nil {
+			// TODO: Login
+			beego.Info(this.GetSession("user"))
+			this.SetSession("user", user)
+
+			//
+			this.Redirect("/", 303)
+		}
+		this.Data["Errors"] = errors
 	}
-	beego.Info(user)
-	this.Redirect("/", 303)
 }
 
 // @router /register [get,post]
 func (this *AuthController) Register() {
 	this.TplName = "pages/auth/register.tpl"
-	this.Data["User"] = models.User{}
+	user := models.User{}
+	this.Data["User"] = user
 
 	if this.Ctx.Input.Is("POST") {
-		user, errors := this.FormService.ParseAndValidate(this.Input(), &models.User{})
+		user, errors := this.FormService.ParseAndValidate(this.Input(), &user)
 
 		beego.Info(this.GetSession("user"))
 		this.SetSession("user", user)
@@ -43,6 +49,5 @@ func (this *AuthController) Register() {
 			this.Redirect("/", 303)
 		}
 		this.Data["Errors"] = errors
-		this.Data["User"] = user
 	}
 }
